@@ -1,0 +1,36 @@
+describe: > 
+ test sidd validation with unet-sidd
+name: unet-sidd
+output_path: ./outputs/val
+epochs: 100
+val_check_interval: 1.0
+model:
+  name: mmpn
+  params: 
+    pd_train: 5
+    pd_val: 2
+    dn_net: mmbd
+    r3: 0.16
+    net_param:
+      branch_num: 1
+      dn_branch: Unet
+      branches_order: [ 0,0 ]
+      net_param:
+        in_nc: 3
+        out_nc: 3
+        n_feature: 128
+        blindspot: False
+        zero_last: False
+  checkpoint_path: weights/unet-sidd-val_avg_psnr=36.94.ckpt
+
+test:
+  type: SIDD_validation
+  dataset:
+    sidd_val_dir: /mnt/f/datasets/SIDD
+    len: 1280
+  dataloader:
+    batch_size: 1
+    shuffle: False
+    num_workers: 6
+
+

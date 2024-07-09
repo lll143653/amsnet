@@ -1,0 +1,33 @@
+describe: > 
+ test sidd validation with deamnet
+name: deamnet-single
+output_path: ./outputs/val
+epochs: 100
+val_check_interval: 1.0
+model:
+  name: mmpn
+  params: 
+    pd_train: 5
+    pd_val: 2
+    dn_net: mmbd
+    r3: 0.16
+    net_param:
+      branch_num: 1
+      dn_branch: Deam
+      branches_order: [0, 0]
+      net_param:
+        Isreal: true
+  checkpoint_path: weights/deamnet-sidd-val_avg_psnr=37.80.ckpt
+
+test:
+  type: UnpairDataset
+  dataset:
+    path: datasets/imagenet/noisy_sample
+    datatype: image
+    max_len: 10000000
+    crop_size: -1
+  dataloader:
+    batch_size: 1
+    shuffle: False
+
+
