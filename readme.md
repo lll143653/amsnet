@@ -1,4 +1,4 @@
-# <img src="images/icon.png" style="vertical-align: -10px;" :height="40px" width="40px"> AMSNet
+# <img src="images/icon.png" style="vertical-align: -10px;" :height="40px" width="40px"> AMSNet: Asymmetric Mask Scheme for Self-Supervised Real Image Denoising
 This repository is the official implementation of ECCV 2024 "Asymmetric Mask Scheme for Self-Supervised Real Image Denoising"
 
 **[Asymmetric Mask Scheme for Self-Supervised Real Image Denoising](https://arxiv.org/abs/2407.06514)**
