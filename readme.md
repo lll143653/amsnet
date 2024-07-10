@@ -1,7 +1,7 @@
 # <img src="images/icon.png" style="vertical-align: -10px;" :height="40px" width="40px"> AMSNet
 This repository is the official implementation of ECCV 2024 "Asymmetric Mask Scheme for Self-Supervised Real Image Denoising"
 
-**[Asymmetric Mask Scheme for Self-Supervised Real Image Denoising](https://arxiv.org/abs/2312.03818)**
+**[Asymmetric Mask Scheme for Self-Supervised Real Image Denoising](https://arxiv.org/abs/2407.06514))**
 </br>
 [Liao Xiangyu](https://github.com/lll143653)\*,
 Tianheng Zheng,
@@ -9,7 +9,7 @@ Jiayu Zhong,
 Pingping Zhang,
 Chao Ren
 <p align="center">
-<!-- <a href="https://arxiv.org/abs/2312.03818"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a> -->
+<a href="https://arxiv.org/abs/2407.06514"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a>
 
 # Environment prepare
 ## Dependencies
