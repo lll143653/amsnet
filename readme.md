@@ -34,7 +34,7 @@ Before you start, make sure you have the following installed:
 
 ## Setup Steps
 
-1. **Create a virtual environment (optional but recommended)**
+1. **Create a virtual environment (optional but recommended, otherwise you are likely to encounter unknown and unnecessary errors)**
 
     ```bash
     conda create -n myenv python=3.10
