@@ -51,10 +51,10 @@ class ImageSaveCallback(Callback):
         target: torch.Tensor = outputs['target']
         output: torch.Tensor = outputs['output']
         psnr: float = outputs.get('psnr', -1)
-        if input.shape == target.shape:
+        if target is not None and input.shape == target.shape:
             final_img = torch.concat([input, target, output])
         else:
-            final_img = torch.concat([target, output])
+            final_img = torch.concat([input, output])
         if psnr > 0:
             output_filename = os.path.join(
                 self.save_dir, f"{batch_idx}_{psnr:.2f}.png")
@@ -235,6 +235,7 @@ if __name__ == "__main__":
         val_check_interval=cfg['val_check_interval'],
         logger=WandbLogger(
             name=cfg['name'], save_dir=paths.folder_path, log_model=False) if args.train and args.wandb else TensorBoardLogger(paths.folder_path, name='tesnorboard'),
+        num_sanity_val_steps=0
     )
     if args.train:
         logger.info(f'train dataloader: {len(train_dataloader)}')

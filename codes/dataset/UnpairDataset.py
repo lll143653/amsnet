@@ -68,7 +68,7 @@ class UnpairDataset(Dataset):
             self.input_keys = self.get_images(path)
 
             def _read(key: str):
-                return ndBGR2RGB(cv2.imread(os.path.join(self.path, key), cv2.IMREAD_COLOR))
+                return ndBGR2RGB(cv2.imread(key, cv2.IMREAD_COLOR))
             self.get_data_func = _read
         else:
             def _read(key: str):
