@@ -4,13 +4,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from codes.util.util import pixel_shuffle_down_sampling, pixel_shuffle_up_sampling
+from codes.util import pixel_shuffle_down_sampling, pixel_shuffle_up_sampling
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numbers
 
-from codes.model.Unet import UNet
+from codes.arches.Unet import UNet
 ##########################################################################
 
 

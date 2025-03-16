@@ -160,65 +160,69 @@ python divide_sub_image.py --hw 512 512 --lmdb --suffix .PNG .bmp --path <Noisy 
 ## modify the config file
 
 
-To train the denoise model, you need to modify the paths in the configuration file. Open the `configs/train/sidd/restormer.yaml` file and update the paths as follows:
+To train the denoise model, you need to modify the paths in the configuration file. Open the `configs/restormer.yaml` file and update the paths as follows:
 
 ```yaml
-train:
-  type: UnpairDataset
-  dataset:
-    path: `/mnt/f/datasets/SIDD/lmdb/medium_512_512_lmdb`  # Update this path
-    datatype: lmdb # Update this type to "image" if your data is images
-    max_len: 10000000
-    crop_size: 160
-    augment: True
-  dataloader:
-    batch_size: 4
-    shuffle: true
-    num_workers: 6
-val:
-  type: SIDD_validation
-  dataset:
-    sidd_val_dir: `/mnt/f/datasets/SIDD`  # Update this path
-    len: 5
-  dataloader:
-    batch_size: 1
-    shuffle: False
-    num_workers: 6
+data:
+  train_dataset:
+    class_path: codes.data.UnpairDataset
+    init_args:
+      path: your_path
+      datatype: lmdb or images, make yourself happy
+      max_len: any number you want
+      crop_size: 320
+      augment: True
 ```
-more detail in codes/datasets
+more detail in codes/data.py
 
 ## train the model
 
-just run the command:
+just run the command(take restormer as an example):
 
 ```bash
-python DNE2E.py --train --config ./configs/train/sidd/restormer.yaml  
+python main.py fit --config configs/restormer.yaml 
 ```
 
 # Validation
 
 ## modify the config file
-To validate the denoise model, you need to modify the paths in the configuration file. Open the `configs/val/sidd/restormer.yaml` file and update the paths as follows:
+To validate the denoise model, you need to modify the paths in the configuration file. Open the `configs/restormer.yaml` file and update the paths as follows:
 
 ```yaml
-test:
-  type: SIDD_validation
-  dataset:
-    sidd_val_dir: /mnt/f/datasets/SIDD # Update this path
-    len: 1280
-  dataloader:
-    batch_size: 1
-    shuffle: False
-    num_workers: 6
+  val_dataset:
+    class_path: codes.data.SIDD_validation or codes.data.SIDD_benchmark
+    init_args:
+      sidd_val_dir: your_path
+      len: 1280
+  test_dataset:
+    class_path: codes.data.SIDD_validation or codes.data.SIDD_benchmark
+    init_args:
+      sidd_val_dir: your_path
+      len: 128
 ```
-more detail in codes/datasets
+or
+```yaml
+  val_dataset:
+    class_path: codes.data.PairDataset
+    init_args:
+      please read the codes/data.py and input correct cfg
+  test_dataset:
+    class_path: codes.data.PairDataset
+    init_args:
+      please read the codes/data.py and input correct cfg
+```
+more detail in codes/data.py, and just run the command(take restormer as an example):
 
-## denoise
+```bash
+python main.py test/validate --config configs/restormer.yaml 
+```
+
+## denoise for single image or imges
 
 just run the command:
 
 ```bash
-python DNE2E.py --config ./configs/val/sidd/restormer.yaml  
+python main.py predict --config ./configs/restormer.yaml --data.predict_dataset.init_args.path=./images/test/test_sample.png
 ```
 
 # Citation

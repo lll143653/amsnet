@@ -7,18 +7,17 @@ import os
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
-import pytorch_lightning as pl
+import lightning.pytorchas pl
 from torchvision.utils import save_image
 from pytorch_lightning.strategies import DDPStrategy
 from pytorch_lightning.utilities.types import *
 from pytorch_lightning.callbacks import ModelCheckpoint, Callback
 from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 from torchvision.utils import save_image
-from codes.util import util
+from codes import util
 import torchmetrics
-from codes.reg import Reg
 from pytorch_lightning.callbacks import RichProgressBar
-from pytorch_lightning import seed_everything
+from lightning.pytorchimport seed_everything
 import pprint
 
 
@@ -215,6 +214,7 @@ if __name__ == "__main__":
             cfg['model']['checkpoint_path'], cfg=cfg)
     else:
         model = ImageDenoiseEnd2End(cfg)
+        pl.Callback
     progress_bar = RichProgressBar(leave=False, theme=RichProgressBarTheme(
         description="green_yellow",
         progress_bar="green1",
