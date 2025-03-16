@@ -84,13 +84,13 @@ data:
     class_path: codes.data.SIDD_validation
     init_args:
       sidd_val_dir: datasets/SIDD_MAT
-      len: 1280
+      len: 32
   test_dataset:
     class_path: codes.data.SIDD_validation
     init_args:
       sidd_val_dir: datasets/SIDD_MAT
-      len: 128
+      len: 1280
   predict_dataset:
     class_path: codes.data.SingleImageOrFloderDataset
     init_args:
-      path: null
+      path: ./images/test/test_sample.png

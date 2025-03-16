@@ -25,10 +25,10 @@ trainer:
         save_dir: images
       
   fast_dev_run: false
-  max_epochs: 100
+  max_epochs: 1000
   max_steps: -1
   overfit_batches: 0.0
-  val_check_interval: 100
+  val_check_interval: 0.5
   check_val_every_n_epoch: 1
   num_sanity_val_steps: 0
   accumulate_grad_batches: 1
@@ -80,20 +80,20 @@ data:
     init_args:
       path: datasets/lmdb/medium_512_512_lmdb
       datatype: lmdb
-      max_len: 10000
+      max_len: 25000
       crop_size: 160
       augment: True
   val_dataset:
     class_path: codes.data.SIDD_validation
     init_args:
       sidd_val_dir: datasets/SIDD_MAT
-      len: 1280
+      len: 32
   test_dataset:
     class_path: codes.data.SIDD_validation
     init_args:
       sidd_val_dir: datasets/SIDD_MAT
-      len: 128
+      len: 1280
   predict_dataset:
     class_path: codes.data.SingleImageOrFloderDataset
     init_args:
-      path: null
+      path: ./images/test/test_sample.png
