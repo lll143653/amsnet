@@ -229,12 +229,15 @@ python main.py predict --config ./configs/restormer.yaml --data.predict_dataset.
 
 If you find this code useful for your research, please consider citing:
 ```bibtex
-@inproceedings{hu2024gaussianavatar,
-        title={Asymmetric Mask Scheme for Self-Supervised Real Image Denoising},
-        author={Xiangyu Liao, Tianheng Zheng, Jiayu Zhong, Pingping Zhang, and Chao Ren},
-        booktitle={European Conference on Computer Vision (ECCV)},
-        year={2024}
+@inproceedings{liao2024asymmetric,
+  title={Asymmetric Mask Scheme for Self-supervised Real Image Denoising},
+  author={Liao, Xiangyu and Zheng, Tianheng and Zhong, Jiayu and Zhang, Pingping and Ren, Chao},
+  booktitle={European Conference on Computer Vision},
+  pages={199--215},
+  year={2024},
+  organization={Springer}
 }
+
 ```
 
 ## Acknowledgements
