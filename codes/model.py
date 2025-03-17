@@ -243,11 +243,12 @@ class ImageDenoiseEnd2End(pl.LightningModule):
         self.psnrs.update(psnr)
         self.ssims.update(ssim)
         return {"input": input, "target": target, "output": output, 'psnr': psnr, 'ssim': ssim}
-    
+
     def predict_step(self, batch: dict[str:torch.Tensor | str], batch_idx: int, dataloader_idx: int = 0) -> torch.Tensor | None:
         input = batch['input']
         output = self.net.forward(input)
-        return {"input": input, "output": output}
+        rel_path = batch['rel_path']
+        return {"input": input, "output": output, "rel_path": rel_path}
 
     def on_validation_epoch_end(self) -> None:
         avg_psnr = self.psnrs.compute()
@@ -277,7 +278,6 @@ class ImageDenoiseEnd2End(pl.LightningModule):
         if self.trainer.is_global_zero:
             logger.info(
                 f'Test finished. avg psnr: {avg_psnr:.2f}, avg ssim: {avg_ssim:.4f}')
-
 
     def test_step(self, batch: dict[str:torch.Tensor | str], batch_idx: int) -> torch.Tensor | None:
         input = batch['input']

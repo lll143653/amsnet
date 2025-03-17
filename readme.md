@@ -223,6 +223,10 @@ just run the command:
 
 ```bash
 python main.py predict --config ./configs/restormer.yaml --data.predict_dataset.init_args.path=./images/test/test_sample.png
+
+or 
+
+python main.py predict --config ./configs/restormer.yaml --data.predict_dataset.init_args.path=./images/test/
 ```
 
 # Citation

@@ -27,6 +27,7 @@ class SingleImageOrFloderDataset(Dataset):
         assert os.path.exists(path), f"Provided path '{path}' does not exist."
         # image or folder
         self.paths = []
+        self.releative_paths = []
         if os.path.isdir(path):
             suffixs: list[str] = [
                 ".jpg",
@@ -44,8 +45,10 @@ class SingleImageOrFloderDataset(Dataset):
                 target_path: str = os.path.join(path, "**", "*" + suffix)
                 res: List[str] = glob.glob(target_path, recursive=True)
                 self.paths.extend(res)
+                self.releative_paths.extend(os.path.relpath(p, path) for p in res)
         else:
             self.paths.append(path)
+            self.releative_paths.append(os.path.basename(path))
         self.transforms = v2.Compose(
             [v2.ToImage(), v2.ToDtype(torch.float32, scale=True)])
 
@@ -54,6 +57,7 @@ class SingleImageOrFloderDataset(Dataset):
 
     def __getitem__(self, idx: int):
         path = self.paths[idx]
+        rel_path = self.releative_paths[idx]
         # crop
         img = cv2.imread(path, cv2.IMREAD_COLOR)
         # to rgb
@@ -64,7 +68,7 @@ class SingleImageOrFloderDataset(Dataset):
         c_h = h//32*32
         c_w = w//32*32
         img = img[:, :c_h, :c_w]
-        return {'input': img}
+        return {'input': img,'rel_path':rel_path}
 
 
 class UnpairDataset(Dataset):
