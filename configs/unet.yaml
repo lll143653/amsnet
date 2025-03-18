@@ -70,6 +70,7 @@ model:
 # checkpoint_path: weights/restormer-val_avg_psnr=37.92.ckpt
 
 data:
+  batch_size: 4
   train_dataset:
     class_path: codes.data.UnpairDataset
     init_args:

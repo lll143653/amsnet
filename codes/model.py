@@ -240,6 +240,8 @@ class ImageDenoiseEnd2End(pl.LightningModule):
         target = batch['target']
         output = self.net.forward(input)
         psnr, ssim = util.calculate_psnr_ssim(target, output, 0)
+        self.log('psnr', psnr)
+        self.log('ssim', ssim)
         self.psnrs.update(psnr)
         self.ssims.update(ssim)
         return {"input": input, "target": target, "output": output, 'psnr': psnr, 'ssim': ssim}
@@ -290,6 +292,8 @@ class ImageDenoiseEnd2End(pl.LightningModule):
             psnr, ssim = util.calculate_psnr_ssim(target, output, 0)
             self.psnrs.update(psnr)
             self.ssims.update(ssim)
+            self.log('test_psnr', psnr)
+            self.log('test_ssim', ssim)
         return {"input": input, "target": target, "output": output, 'psnr': psnr, 'ssim': ssim}
 
     def configure_optimizers(self) -> Optimizer | None:
