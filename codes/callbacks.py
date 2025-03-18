@@ -12,15 +12,13 @@ class ImageSaveCallback(Callback):
         super().__init__()
         self.save_dir = save_dir
 
-    def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
-        outputs['psnr'] = -1
+    def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):   
         self._save_images(trainer, pl_module, outputs, batch, batch_idx)
 
     def on_test_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
         self._save_images(trainer, pl_module, outputs, batch, batch_idx)
 
     def on_predict_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
-        outputs['psnr'] = -1
         self._save_images(trainer, pl_module, outputs, batch, batch_idx)
 
     def _save_images(self, trainer, pl_module, outputs, batch, batch_idx):

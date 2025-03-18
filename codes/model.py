@@ -220,10 +220,6 @@ class ImageDenoiseEnd2End(pl.LightningModule):
             self.load_state_dict(torch.load(checkpoints)['state_dict'])
         self.optimizer = optimizer
         self.scheduler = scheduler
-        self.psnrs = torchmetrics.MeanMetric()
-        self.ssims = torchmetrics.MeanMetric()
-        self.best_psnr = float('-inf')
-        self.best_ssim = float('-inf')
         self.init_weights()
 
     def forward(self, data: dict[str:torch.Tensor]) -> torch.tensor:
@@ -242,44 +238,14 @@ class ImageDenoiseEnd2End(pl.LightningModule):
         psnr, ssim = util.calculate_psnr_ssim(target, output, 0)
         self.log('psnr', psnr)
         self.log('ssim', ssim)
-        self.psnrs.update(psnr)
-        self.ssims.update(ssim)
-        return {"input": input, "target": target, "output": output, 'psnr': psnr, 'ssim': ssim}
+        return {"input": input, "target": target, "output": output}
+
 
     def predict_step(self, batch: dict[str:torch.Tensor | str], batch_idx: int, dataloader_idx: int = 0) -> torch.Tensor | None:
         input = batch['input']
         output = self.net.forward(input)
         rel_path = batch['rel_path']
         return {"input": input, "output": output, "rel_path": rel_path}
-
-    def on_validation_epoch_end(self) -> None:
-        avg_psnr = self.psnrs.compute()
-        self.log('val_avg_psnr', avg_psnr, prog_bar=True,
-                 logger=True, sync_dist=True)
-        self.psnrs.reset()
-        avg_ssim = self.ssims.compute()
-        self.log('val_avg_ssim', avg_ssim, prog_bar=True,
-                 logger=True, sync_dist=True)
-        self.ssims.reset()
-        if avg_psnr > self.best_psnr:
-            self.best_psnr = avg_psnr
-        self.log('best_val_psnr', self.best_psnr,
-                 prog_bar=True, logger=True, sync_dist=True)
-        if avg_ssim > self.best_ssim:
-            self.best_ssim = avg_ssim
-        self.log('best_val_ssim', self.best_ssim,
-                 prog_bar=True, logger=True, sync_dist=True)
-
-    def on_test_epoch_start(self) -> None:
-        self.psnrs.reset()
-        self.ssims.reset()
-
-    def on_test_epoch_end(self) -> None:
-        avg_psnr = self.psnrs.compute()
-        avg_ssim = self.ssims.compute()
-        if self.trainer.is_global_zero:
-            logger.info(
-                f'Test finished. avg psnr: {avg_psnr:.2f}, avg ssim: {avg_ssim:.4f}')
 
     def test_step(self, batch: dict[str:torch.Tensor | str], batch_idx: int) -> torch.Tensor | None:
         input = batch['input']
@@ -290,8 +256,6 @@ class ImageDenoiseEnd2End(pl.LightningModule):
         psnr, ssim = -1, -1
         if target is not None:
             psnr, ssim = util.calculate_psnr_ssim(target, output, 0)
-            self.psnrs.update(psnr)
-            self.ssims.update(ssim)
             self.log('test_psnr', psnr)
             self.log('test_ssim', ssim)
         return {"input": input, "target": target, "output": output, 'psnr': psnr, 'ssim': ssim}
