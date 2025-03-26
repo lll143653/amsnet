@@ -295,7 +295,8 @@ def main():
 
     def save_sub_image():
         idx = 0
-        txn = lmdb_env.begin(write=True)
+        if args.lmdb:
+            txn = lmdb_env.begin(write=True)
         while True:
             image_data = image_queue.get()
             if image_data is None:
