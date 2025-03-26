@@ -315,16 +315,14 @@ def main():
                     idx = 0
                     txn = lmdb_env.begin(write=True)
             if args.img:
-                cur_dir = os.path.dirname(img_path)
                 save_dir = (
                     output_path
                     + (f"/{name}_{res_h}_{res_w}_images/" if res_h != -
                         1 and res_w != -1 else f"/{name}_images/")
-                    + cur_dir.split(args.path)[-1]
                 )
                 if not os.path.exists(save_dir):
                     os.makedirs(save_dir)
-                save_path = os.path.join(save_dir, cur_name)
+                save_path = os.path.join(save_dir, cur_name+'.png')
                 cv2.imwrite(save_path, img)
         if idx > 0:
             txn.commit()
