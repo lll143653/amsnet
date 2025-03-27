@@ -270,7 +270,7 @@ class PairDataset(Dataset):
     def init_data(self, path: str, type: Annotated[str, ['image', 'lmdb']]) -> None:
         if type == 'image':
             def _read(_path: str, _key: str):
-                return self.ndBGR2RGB(cv2.imread(os.path.join(_path, _key), cv2.IMREAD_COLOR))
+                return self.ndBGR2RGB(cv2.imread(_key, cv2.IMREAD_COLOR))
             keys = self.get_images(path)
             return keys, _read
         else:
