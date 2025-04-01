@@ -216,7 +216,7 @@ more detail in codes/data.py, and just run the command(take restormer as an exam
 ```bash
 python main.py test/validate --config configs/restormer.yaml 
 ```
-
+Please note that the test or validate does not require the training dataset, just comment out the corresponding content in the configuration file
 ## denoise for single image or imges
 
 just run the command:
